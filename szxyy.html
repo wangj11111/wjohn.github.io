@@ -1,0 +1,801 @@
+<html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧云校园平台 - 构建教育数字化新生态</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#4080FF',
+                        accent: '#0FC6C2',
+                        dark: '#1D2129',
+                        light: '#F2F3F5',
+                        muted: '#86909C'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card': '0 10px 30px -5px rgba(22, 93, 255, 0.1)',
+                        'card-hover': '0 20px 40px -5px rgba(22, 93, 255, 0.2)',
+                    }
+                },
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .bg-gradient-primary {
+                background: linear-gradient(135deg, #165DFF 0%, #4080FF 100%);
+            }
+            .transition-custom {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .section-padding {
+                padding-top: clamp(3rem, 8vh, 6rem);
+                padding-bottom: clamp(3rem, 8vh, 6rem);
+            }
+            .animate-float {
+                animation: float 6s ease-in-out infinite;
+            }
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-20px); }
+                100% { transform: translateY(0px); }
+            }
+        }
+    </style>
+</head>
+<body class="font-inter text-dark bg-white">
+    <!-- 导航栏 -->
+    <header id="navbar" class="fixed w-full z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center">
+                        <div class="w-32 h-12 rounded-lg  flex items-center justify-center">
+                            <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/f4acd34cdb4c49e0bf34a55d9f0ffa39~tplv-a9rns2rl98-image.image?rk3s=8e244e95&amp;rrcfp=e75484ac&amp;x-expires=1753946686&amp;x-signature=7Y4S2bOX0v8RUGWqRa%2FWZpt2qyM%3D" alt="大鲵教育Logo" class="h-8">
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 桌面导航 -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#features" class="text-dark hover:text-primary transition-custom font-medium">核心功能</a>
+                    <a href="#advantage" class="text-dark hover:text-primary transition-custom font-medium">技术优势</a>
+                    <a href="#cases" class="text-dark hover:text-primary transition-custom font-medium">合作案例</a>
+                    <a href="#pricing" class="text-dark hover:text-primary transition-custom font-medium">产品定价</a>
+                    <a href="#cooperation" class="text-dark hover:text-primary transition-custom font-medium">合作邀约</a>
+                    <a href="#faq" class="text-dark hover:text-primary transition-custom font-medium">常见问题</a>
+                </nav>
+
+                <!-- CTA按钮 -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#cooperation" class="px-5 py-2.5 text-primary border border-primary rounded-lg hover:bg-primary/5 transition-custom font-medium">申请演示</a>
+                    <a href="#cooperation" class="px-5 py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-custom font-medium shadow-lg shadow-primary/20">联系合作</a>
+                </div>
+
+                <!-- 移动端菜单按钮 -->
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-dark hover:text-primary focus:outline-none">
+                        <i class="fa fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 移动端导航菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg absolute w-full">
+            <div class="px-4 py-5 space-y-3">
+                <a href="#features" class="block py-2 text-dark hover:text-primary transition-custom font-medium">核心功能</a>
+                <a href="#advantage" class="block py-2 text-dark hover:text-primary transition-custom font-medium">技术优势</a>
+                <a href="#cases" class="block py-2 text-dark hover:text-primary transition-custom font-medium">合作案例</a>
+                <a href="#pricing" class="block py-2 text-dark hover:text-primary transition-custom font-medium">产品定价</a>
+                <a href="#cooperation" class="block py-2 text-dark hover:text-primary transition-custom font-medium">合作邀约</a>
+                <a href="#faq" class="block py-2 text-dark hover:text-primary transition-custom font-medium">常见问题</a>
+                <div class="pt-4 flex flex-col space-y-3">
+                    <a href="#cooperation" class="px-5 py-2.5 text-center text-primary border border-primary rounded-lg hover:bg-primary/5 transition-custom font-medium">申请演示</a>
+                    <a href="#cooperation" class="px-5 py-2.5 text-center bg-primary text-white rounded-lg hover:bg-primary/90 transition-custom font-medium shadow-lg shadow-primary/20">联系合作</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero区域 -->
+        <section class="relative pt-32 pb-20 bg-gradient-to-br from-blue-50 to-white overflow-hidden">
+            <div class="absolute top-0 right-0 w-full h-full overflow-hidden opacity-10">
+                <div class="absolute top-20 -right-20 w-96 h-96 bg-primary rounded-full filter blur-3xl"></div>
+                <div class="absolute bottom-20 -left-20 w-96 h-96 bg-accent rounded-full filter blur-3xl"></div>
+            </div>
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-8">
+                        <div>
+                            <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight text-dark">
+                                智慧云校园平台<br>
+                                <span class="text-primary">构建教育数字化新生态</span>
+                            </h1>
+                            <p class="mt-6 text-lg text-muted max-w-xl">
+                                一站式教育数字化解决方案，助力学校实现数据安全存储、资源共享、个性化教学与智能管理，推动教育高质量发展。
+                            </p>
+                        </div>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="#cooperation" class="px-8 py-3.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-custom font-medium shadow-xl shadow-primary/20 hover:shadow-primary/30 transform hover:-translate-y-1">
+                                申请演示
+                            </a>
+                            <a href="#cooperation" class="px-8 py-3.5 text-primary border border-primary rounded-lg hover:bg-primary/5 transition-custom font-medium hover:border-primary/80 transform hover:-translate-y-1">
+                                联系合作
+                            </a>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                <i class="fa fa-shield text-primary"></i>
+                            </div>
+                            <p class="text-dark font-medium">大鲵教育·服务超50+所中小学</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-accent/10 rounded-2xl transform rotate-3"></div>
+                        <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/2e5a7da6282d4c84ac2d962ab486a20b~tplv-a9rns2rl98-image.image?rk3s=8e244e95&amp;rrcfp=e75484ac&amp;x-expires=1753946526&amp;x-signature=ODnmeuhhT6ti9nxgxDevlVFGpGk%3D" alt="智慧云校园平台首页界面" class="relative z-10 rounded-2xl shadow-2xl animate-float">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 核心功能页 -->
+        <section id="features" class="section-padding bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark">核心功能</h2>
+                    <p class="mt-4 text-muted">全方位满足学校数字化转型需求，打造安全、共享、智能的校园环境</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
+                    <!-- 功能模块1 -->
+                    <div class="bg-light rounded-xl p-8 shadow-card hover:shadow-card-hover transition-custom transform hover:-translate-y-1">
+                        <div class="flex items-center space-x-4 mb-6">
+                            <div class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center">
+                                <i class="fa fa-database text-primary text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark">私有化存储</h3>
+                        </div>
+                        <p class="text-muted mb-6">本地服务器部署，支持数据加密与权限分级，满足学校个性化存储需求（如校本资源库、师生档案管理）。</p>
+                        <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/17bef628cb93400d85be8c5a25e4726a~tplv-a9rns2rl98-image.image?rk3s=8e244e95&amp;rrcfp=e75484ac&amp;x-expires=1753946535&amp;x-signature=hkLiuD0uORPpSkLytH1mK8nFwE4%3D" alt="服务器机房示意图" class="rounded-lg shadow-md">
+                    </div>
+
+                    <!-- 功能模块2 -->
+                    <div class="bg-light rounded-xl p-8 shadow-card hover:shadow-card-hover transition-custom transform hover:-translate-y-1">
+                        <div class="flex items-center space-x-4 mb-6">
+                            <div class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center">
+                                <i class="fa fa-share-alt text-primary text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark">共享教育资源</h3>
+                        </div>
+                        <p class="text-muted mb-6">连接区域内多所学校资源库，实现教案、课件、习题等教育资源共建共享，已整合超10万份优质教学素材。</p>
+                        <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/cd2610647f2b44ab8ffb38ca93688795~tplv-a9rns2rl98-image.image?rk3s=8e244e95&amp;rrcfp=e75484ac&amp;x-expires=1753946543&amp;x-signature=zCojBP5q7U50m%2Fy%2Fev32Qi%2BarRg%3D" alt="资源共享流程图" class="rounded-lg shadow-md">
+                    </div>
+
+                    <!-- 功能模块3 -->
+                    <div class="bg-light rounded-xl p-8 shadow-card hover:shadow-card-hover transition-custom transform hover:-translate-y-1">
+                        <div class="flex items-center space-x-4 mb-6">
+                            <div class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center">
+                                <i class="fa fa-cogs text-primary text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark">高度定制内容</h3>
+                        </div>
+                        <p class="text-muted mb-6">支持根据学校类型（小学/中学）、办学理念（如科技特色校、艺术特色校）调整模块功能与界面布局。</p>
+                        <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/10cc158916894ac4badc60799c5e6a94~tplv-a9rns2rl98-image.image?rk3s=8e244e95&amp;rrcfp=e75484ac&amp;x-expires=1753946551&amp;x-signature=EFJGfdE85qdyEkjeNn%2BibnPBXVk%3D" alt="不同学校定制界面对比图" class="rounded-lg shadow-md">
+                    </div>
+
+                    <!-- 功能模块4 -->
+                    <div class="bg-light rounded-xl p-8 shadow-card hover:shadow-card-hover transition-custom transform hover:-translate-y-1">
+                        <div class="flex items-center space-x-4 mb-6">
+                            <div class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center">
+                                <i class="fa fa-line-chart text-primary text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark">三方协同评价体系</h3>
+                        </div>
+                        <p class="text-muted mb-6">构建教师、家长、学生三方评价体系，全面客观评价学生发展，为个性化教育提供依据。</p>
+                        <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/c43f0a50cbef438dbcaa6dd1dba13c45~tplv-a9rns2rl98-image.image?rk3s=8e244e95&amp;rrcfp=e75484ac&amp;x-expires=1753946559&amp;x-signature=FVYbAhNMZz7yK8tdhbflqlFBKWs%3D" alt="层级管理架构图" class="rounded-lg shadow-md">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技术优势页 -->
+        <section id="advantage" class="section-padding bg-gradient-to-br from-blue-50 to-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark">三大技术壁垒，引领智慧校园升级</h2>
+                    <p class="mt-4 text-muted">依托先进技术，打造安全、高效、智能的教育信息化平台</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- 技术优势1 -->
+                    <div class="bg-white rounded-xl p-8 shadow-card hover:shadow-card-hover transition-custom">
+                        <div class="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
+                            <i class="fa fa-bolt text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark mb-4">AI智能运维</h3>
+                        <p class="text-muted">7×24小时自动监控系统，故障响应速度提升80%，保障系统稳定运行，降低运维成本。</p>
+                        <img src="https://picsum.photos/id/1/100/100" alt="AI智能运维图标" class="mt-4 w-12 h-12 rounded-full object-cover">
+                    </div>
+
+                    <!-- 技术优势2 -->
+                    <div class="bg-white rounded-xl p-8 shadow-card hover:shadow-card-hover transition-custom">
+                        <div class="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
+                            <i class="fa fa-lock text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark mb-4">全流程数据安全</h3>
+                        <p class="text-muted">通过国家三级等保认证，数据传输/存储/使用全链路加密，严格保障学校数据安全与隐私。</p>
+                        <img src="https://picsum.photos/id/2/100/100" alt="数据安全图标" class="mt-4 w-12 h-12 rounded-full object-cover">
+                    </div>
+
+                    <!-- 技术优势3 -->
+                    <div class="bg-white rounded-xl p-8 shadow-card hover:shadow-card-hover transition-custom">
+                        <div class="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
+                            <i class="fa fa-desktop text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark mb-4">多终端自适应</h3>
+                        <p class="text-muted">全设备适配：支持PC端（Windows/macOS）、平板（iOS/Android）、智慧黑板及手机端访问，界面自动适配分辨率。</p>
+                        <img src="https://picsum.photos/id/3/100/100" alt="多终端适配图标" class="mt-4 w-12 h-12 rounded-full object-cover">
+                    </div>
+
+                    <!-- 技术优势4 -->
+                    <div class="bg-white rounded-xl p-8 shadow-card hover:shadow-card-hover transition-custom">
+                        <div class="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
+                            <i class="fa fa-plug text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark mb-4">旧系统兼容</h3>
+                        <p class="text-muted">可对接学校现有教务系统（如正方、金智），无需替换硬件或重构数据，保护学校现有投资。</p>
+                        <img src="https://picsum.photos/id/4/100/100" alt="系统兼容图标" class="mt-4 w-12 h-12 rounded-full object-cover">
+                    </div>
+
+                    <!-- 技术优势5 -->
+                    <div class="bg-white rounded-xl p-8 shadow-card hover:shadow-card-hover transition-custom">
+                        <div class="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
+                            <i class="fa fa-certificate text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark mb-4">权威认证</h3>
+                        <p class="text-muted">通过国家三级等保认证，符合《教育信息化2.0行动计划》要求，确保平台合规性与安全性。</p>
+                        <img src="https://picsum.photos/id/5/100/100" alt="权威认证图标" class="mt-4 w-12 h-12 rounded-full object-cover">
+                    </div>
+
+                    <!-- 技术优势6 -->
+                    <div class="bg-white rounded-xl p-8 shadow-card hover:shadow-card-hover transition-custom">
+                        <div class="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
+                            <i class="fa fa-users text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark mb-4">专业团队支持</h3>
+                        <p class="text-muted">提供线上+线下培训，含操作手册、视频教程及1对1客服支持，确保学校顺利使用平台。</p>
+                        <img src="https://picsum.photos/id/6/100/100" alt="专业团队图标" class="mt-4 w-12 h-12 rounded-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 合作案例页 -->
+        <section id="cases" class="section-padding bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark">合作案例</h2>
+                    <p class="mt-4 text-muted">我们已与多所学校达成合作，助力教育数字化转型</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12">
+                    <!-- 案例1 -->
+                    <div class="bg-light rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-custom">
+                        <div class="p-8">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                    <i class="fa fa-graduation-cap text-primary"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-dark">松山湖中心小学</h3>
+                                <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">个性化教育落地</span>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-medium text-dark">痛点</h4>
+                                    <p class="text-muted">校本资源分散，教师备课效率低</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-dark">方案</h4>
+                                    <p class="text-muted">部署共享资源库+AI分类标签功能</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-dark">成效</h4>
+                                    <p class="text-muted">教师备课时间缩短40%，资源复用率提升65%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/4bcdc8cb496a4c2f902b958176678105~tplv-a9rns2rl98-image.image?rk3s=8e244e95&amp;rrcfp=e75484ac&amp;x-expires=1753946569&amp;x-signature=hYvmNCR1SvGEBaNqY4q1%2BSEHJCA%3D" alt="松山湖中心小学实景图" class="w-full h-64 object-cover">
+                        </div>
+                    </div>
+
+                    <!-- 案例2 -->
+                    <div class="bg-light rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-custom">
+                        <div class="p-8">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                    <i class="fa fa-book text-primary"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-dark">大岭山镇实验小学</h3>
+                                <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">资源整合实践</span>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-medium text-dark">痛点</h4>
+                                    <p class="text-muted">学生差异大，分层教学实施难</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-dark">方案</h4>
+                                    <p class="text-muted">定制化学习评价模块+学情报告看板</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-dark">成效</h4>
+                                    <p class="text-muted">通过定制化学习评价模块，教师能够针对不同学生的能力水平和学习进度，制定个性化的教学计划，有效缩小了学生间的差异。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/cfa11eb6cfc74406914227c040c9a895~tplv-a9rns2rl98-image.image?rk3s=8e244e95&amp;rrcfp=e75484ac&amp;x-expires=1753946592&amp;x-signature=sBY9Fkgzl5Bc1evjqDJwiV0BH0s%3D" alt="大岭山镇实验小学实景图" class="w-full h-64 object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 产品定价页 -->
+        <section id="pricing" class="section-padding bg-gradient-to-br from-blue-50 to-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark">数智校园云平台 · 按校按需选择</h2>
+                    <p class="mt-4 text-muted">灵活的产品方案，满足不同规模学校的数字化需求</p>
+                </div>
+
+                <!-- 免费资源模块 -->
+                <div class="bg-white rounded-xl shadow-card mb-12 overflow-hidden">
+                    <div class="bg-primary/10 p-6">
+                        <h3 class="text-xl font-bold text-dark">免费资源模块（全规模学校适用）</h3>
+                    </div>
+                    <div class="p-8">
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="py-3 px-6 text-left text-dark font-bold border-b">模块名称</th>
+                                        <th class="py-3 px-6 text-left text-dark font-bold border-b">核心内容</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-4 px-6 border-b">拓展课程（四个一课程）</td>
+                                        <td class="py-4 px-6 border-b">5本电子书（硬笔好字/学习习惯等）+ 4类教学资源库（图文/音视频）+ 专属账号</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-4 px-6 border-b">"问题"+教学（数语英科）</td>
+                                        <td class="py-4 px-6 border-b">2本电子书+学科资源库+学期线上教研活动+专属账号</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-4 px-6 border-b">"1+X"教学（音体美）</td>
+                                        <td class="py-4 px-6 border-b">2本电子书+音体美资源库+学期线上教研活动+专属账号</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-4 px-6 border-b">个性化首页定制</td>
+                                        <td class="py-4 px-6 border-b">校园文化展示+办学理念个性化设计</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 付费功能模块 -->
+                <div class="bg-white rounded-xl shadow-card mb-12 overflow-hidden">
+                    <div class="bg-primary/10 p-6">
+                        <h3 class="text-xl font-bold text-dark">付费功能模块（按学校规模定价）</h3>
+                    </div>
+                    <div class="p-8">
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="py-3 px-6 text-left text-dark font-bold border-b">模块名称</th>
+                                        <th class="py-3 px-6 text-center text-dark font-bold border-b">小规模（12-24班）</th>
+                                        <th class="py-3 px-6 text-center text-dark font-bold border-b">中规模（25-36班）</th>
+                                        <th class="py-3 px-6 text-center text-dark font-bold border-b">大规模（37-60班）</th>
+                                        <th class="py-3 px-6 text-center text-dark font-bold border-b">超大规模（61-90班）</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-4 px-6 border-b">天天练教学系统</td>
+                                        <td class="py-4 px-6 text-center border-b">9980元/学年（100G）</td>
+                                        <td class="py-4 px-6 text-center border-b">12980元/学年（300G）</td>
+                                        <td class="py-4 px-6 text-center border-b">16980元/学年（500G）</td>
+                                        <td class="py-4 px-6 text-center border-b">19980元/学年（1T）</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-4 px-6 border-b">校本资源管理平台</td>
+                                        <td class="py-4 px-6 text-center border-b">9980元/学年（100G）</td>
+                                        <td class="py-4 px-6 text-center border-b">12980元/学年（300G）</td>
+                                        <td class="py-4 px-6 text-center border-b">16980元/学年（500G）</td>
+                                        <td class="py-4 px-6 text-center border-b">19980元/学年（1T）</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-4 px-6 border-b">教学评价系统</td>
+                                        <td class="py-4 px-6 text-center border-b">19800元/学年</td>
+                                        <td class="py-4 px-6 text-center border-b">24800元/学年</td>
+                                        <td class="py-4 px-6 text-center border-b">29800元/学年</td>
+                                        <td class="py-4 px-6 text-center border-b">39800元/学年</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-4 px-6 border-b">课后服务管理系统</td>
+                                        <td class="py-4 px-6 text-center border-b">10元/学生/学年</td>
+                                        <td class="py-4 px-6 text-center border-b">10元/学生/学年</td>
+                                        <td class="py-4 px-6 text-center border-b">10元/学生/学年</td>
+                                        <td class="py-4 px-6 text-center border-b">10元/学生/学年</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 费用说明 -->
+                <div class="bg-white rounded-xl shadow-card p-8">
+                    <h3 class="text-xl font-bold text-dark mb-6">费用说明</h3>
+                    <div class="space-y-4">
+                        <p class="text-muted">
+                            <i class="fa fa-info-circle text-primary mr-2"></i>
+                            免费资源：课程内容与资源由深度学习爱好者无偿共享，仅收取平台运营成本（开发/服务器/网络支持）。
+                        </p>
+                        <p class="text-muted">
+                            <i class="fa fa-calendar text-primary mr-2"></i>
+                            价格有效期：2025年7月1日-2026年8月1日，解释权归广东省大鲵教育科技有限公司。
+                        </p>
+                        <p class="text-muted">
+                            <i class="fa fa-phone text-primary mr-2"></i>
+                            咨询方式：王工（电话/微信：18779939849）
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 合作邀约页 -->
+        <section id="cooperation" class="section-padding bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark">携手共建智慧教育未来</h2>
+                    <p class="mt-4 text-muted">选择适合您学校的合作模式，开启教育数字化转型之旅</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12">
+                    <!-- 基础版 -->
+                    <div class="bg-light rounded-xl p-8 shadow-card hover:shadow-card-hover transition-custom border-t-4 border-primary">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-bold text-dark">基础版</h3>
+                            <span class="px-4 py-1 bg-primary/10 text-primary text-sm rounded-full">适合普通学校</span>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-primary mt-1 mr-3"></i>
+                                <span class="text-muted">标准化功能模块，满足学校基本数字化需求</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-primary mt-1 mr-3"></i>
+                                <span class="text-muted">包含核心功能：资源共享、教学管理、学生评价等</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-primary mt-1 mr-3"></i>
+                                <span class="text-muted">提供基础培训与技术支持服务</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-primary mt-1 mr-3"></i>
+                                <span class="text-muted">定期功能更新与优化</span>
+                            </li>
+                        </ul>
+                        <a href="#contact" class="block text-center px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-custom font-medium shadow-lg shadow-primary/20">
+                            获取方案
+                        </a>
+                    </div>
+
+                    <!-- 定制版 -->
+                    <div class="bg-light rounded-xl p-8 shadow-card hover:shadow-card-hover transition-custom border-t-4 border-accent relative">
+                        <div class="absolute top-0 right-0">
+                            <span class="px-4 py-1 bg-accent text-white text-sm rounded-bl-lg">推荐</span>
+                        </div>
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-bold text-dark">定制版</h3>
+                            <span class="px-4 py-1 bg-accent/10 text-accent text-sm rounded-full">适合特色学校/教育集团</span>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-accent mt-1 mr-3"></i>
+                                <span class="text-muted">按需开发专属功能模块，满足个性化需求</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-accent mt-1 mr-3"></i>
+                                <span class="text-muted">包含基础版全部功能，并支持功能扩展</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-accent mt-1 mr-3"></i>
+                                <span class="text-muted">提供专属运维团队与7×24小时技术支持</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-accent mt-1 mr-3"></i>
+                                <span class="text-muted">深度定制界面与交互体验</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-accent mt-1 mr-3"></i>
+                                <span class="text-muted">优先接入最新技术与功能</span>
+                            </li>
+                        </ul>
+                        <a href="#contact" class="block text-center px-6 py-3 bg-accent text-white rounded-lg hover:bg-accent/90 transition-custom font-medium shadow-lg shadow-accent/20">
+                            获取定制方案
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mt-16 bg-primary/5 rounded-xl p-8 text-center">
+                    <h3 class="text-xl font-bold text-dark mb-4">前50所合作学校享1年免费运维服务</h3>
+                    <p class="text-muted mb-6 max-w-2xl mx-auto">立即联系我们，开启智慧校园建设之旅，享受更多优惠与服务</p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="#contact" class="px-8 py-3.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-custom font-medium shadow-xl shadow-primary/20 hover:shadow-primary/30">
+                            获取定制方案
+                        </a>
+                        <a href="#contact" class="px-8 py-3.5 text-primary border border-primary rounded-lg hover:bg-primary/5 transition-custom font-medium hover:border-primary/80">
+                            预约上门演示
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 常见问题 -->
+        <section id="faq" class="section-padding bg-gradient-to-br from-blue-50 to-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark">常见问题</h2>
+                    <p class="mt-4 text-muted">解答您可能关心的问题</p>
+                </div>
+
+                <div class="max-w-3xl mx-auto space-y-6">
+                    <!-- FAQ项目 -->
+                    <div class="bg-white rounded-xl shadow-card overflow-hidden">
+                        <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none">
+                            <span class="font-medium text-dark">平台是否支持按模块单独采购？</span>
+                            <i class="fa fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content px-6 pb-6 hidden">
+                            <p class="text-muted">支持灵活选购。所有资源类模块免费开放，功能类模块可单独购买（如仅采购“课后服务管理系统”），也可组合选购享套餐优惠（详询客服）。</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-card overflow-hidden">
+                        <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none">
+                            <span class="font-medium text-dark">数据存储是否符合教育行业规范？</span>
+                            <i class="fa fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content px-6 pb-6 hidden">
+                            <p class="text-muted">符合《教育信息化2.0行动计划》要求，通过国家三级等保认证。</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-card overflow-hidden">
+                        <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none">
+                            <span class="font-medium text-dark">教师培训如何安排？</span>
+                            <i class="fa fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content px-6 pb-6 hidden">
+                            <p class="text-muted">提供线上+线下培训，含操作手册、视频教程及1对1客服支持。</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-card overflow-hidden">
+                        <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none">
+                            <span class="font-medium text-dark">平台是否支持与现有系统对接？</span>
+                            <i class="fa fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content px-6 pb-6 hidden">
+                            <p class="text-muted">支持与学校现有教务系统（如正方、金智）对接，无需替换硬件或重构数据，保护学校现有投资。</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-card overflow-hidden">
+                        <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none">
+                            <span class="font-medium text-dark">系统部署需要多长时间？</span>
+                            <i class="fa fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content px-6 pb-6 hidden">
+                            <p class="text-muted">基础版部署周期通常为2-4周，定制版根据功能复杂度不同，部署周期为4-8周。我们将安排专业团队全程跟进，确保系统顺利上线。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 联系我们 -->
+        <section id="contact" class="section-padding bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark">联系我们</h2>
+                    <p class="mt-4 text-muted">如有任何疑问或需求，请随时与我们联系</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="bg-light rounded-xl p-8 shadow-card">
+                        <h3 class="text-xl font-bold text-dark mb-6">广东省大鲵教育科技有限公司</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mr-4">
+                                    <i class="fa fa-map-marker text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-dark">公司地址</h4>
+                                    <p class="text-muted">广东省东莞市松山湖园区科技二路9号一栋一单元201室</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mr-4">
+                                    <i class="fa fa-phone text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-dark">联系电话</h4>
+                                    <p class="text-muted">134-8007-9021</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mr-4">
+                                    <i class="fa fa-envelope text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-dark">电子邮箱</h4>
+                                    <p class="text-muted">1143598304@qq.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-8 shadow-card border border-gray-100">
+                        <h3 class="text-xl font-bold text-dark mb-6">发送消息</h3>
+                        <form>
+                            <div class="space-y-6">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="name" class="block text-sm font-medium text-dark mb-2">姓名</label>
+                                        <input type="text" id="name" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请输入您的姓名">
+                                    </div>
+                                    <div>
+                                        <label for="phone" class="block text-sm font-medium text-dark mb-2">电话</label>
+                                        <input type="tel" id="phone" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请输入您的电话">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="school" class="block text-sm font-medium text-dark mb-2">学校名称</label>
+                                    <input type="text" id="school" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请输入您的学校名称">
+                                </div>
+                                <div>
+                                    <label for="message" class="block text-sm font-medium text-dark mb-2">留言内容</label>
+                                    <textarea id="message" rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请输入您的留言内容"></textarea>
+                                </div>
+                                <button type="submit" class="w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-custom font-medium shadow-lg shadow-primary/20">
+                                    提交
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white pt-12 pb-6">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-4">关于我们</h3>
+                    <p class="text-gray-400 mb-4">广东省大鲵教育科技有限公司致力于为教育行业提供全方位的数字化解决方案，助力学校实现教育现代化。</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-weixin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-weibo text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-youtube-play text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">产品服务</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition-custom">核心功能</a></li>
+                        <li><a href="#pricing" class="text-gray-400 hover:text-white transition-custom">产品定价</a></li>
+                        <li><a href="#cooperation" class="text-gray-400 hover:text-white transition-custom">合作模式</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">资源中心</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">解决方案</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">成功案例</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">技术文档</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">常见问题</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">联系我们</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fa fa-map-marker text-gray-400 mr-2"></i>
+                            <span class="text-gray-400">广东省东莞市松山湖园区科技二路9号一栋一单元201室</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-phone text-gray-400 mr-2"></i>
+                            <span class="text-gray-400">134-8007-9021</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-envelope text-gray-400 mr-2"></i>
+                            <span class="text-gray-400">1143598304@qq.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-6 text-center text-gray-400">
+                <p>© 2025 广东省大鲵教育科技有限公司. 粤ICP备18136166号.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-white', 'shadow-lg');
+                navbar.classList.remove('bg-transparent');
+            } else {
+                navbar.classList.remove('bg-white', 'shadow-lg');
+                navbar.classList.add('bg-transparent');
+            }
+        });
+
+        // 移动端菜单切换
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // 关闭移动菜单（如果打开）
+                    document.getElementById('mobile-menu').classifies.add('hidden');
+                    
+                    // 平滑滚动到目标位置
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,</script></body></html>
