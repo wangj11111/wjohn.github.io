@@ -5,177 +5,551 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>学生账号密码查询系统</title>
     <style>
+        /* 全局变量定义 */
+        :root {
+            --primary-color: #4A9D98; /* 主色调：柔和蓝绿色 */
+            --primary-dark: #3D8B87; /* 主色调加深 */
+            --accent-color: #FF9F45; /* 辅助色：暖橙色 */
+            --error-color: #FF6B6B; /* 错误色：暖红色 */
+            --bg-color: #F9FAF5; /* 背景色：米白色 */
+            --card-bg: #FFFFFF; /* 卡片背景：白色 */
+            --text-primary: #333333; /* 主要文字：深灰 */
+            --text-secondary: #666666; /* 次要文字：中灰 */
+            --text-hint: #888888; /* 提示文字：浅灰 */
+            --border-light: #E8E8E8; /* 分割线：浅灰 */
+            --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08); /* 轻微阴影 */
+            --shadow-medium: 0 4px 12px rgba(74, 157, 152, 0.15); /* 中等阴影 */
+            
+            /* 尺寸变量 */
+            --border-radius: 8px; /* 圆角 */
+            --btn-height: 50px; /* 按钮高度 */
+            --input-height: 50px; /* 输入框高度 */
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+        }
+
+        /* 深色模式变量 */
+        [data-theme="dark"] {
+            --bg-color: #2D2D2D;
+            --card-bg: #3D3D3D;
+            --text-primary: #E0E0E0;
+            --text-secondary: #B0B0B0;
+            --border-light: #444444;
+        }
+
+        /* 全局样式重置 */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Microsoft YaHei', sans-serif;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
         }
-        
+
         body {
-            background-color: #f5f5f5;
-            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
             line-height: 1.6;
+            padding: 20px 0;
+            transition: background-color 0.3s ease;
         }
-        
+
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+            padding: 0 var(--spacing-md);
         }
-        
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .search-section {
-            margin-bottom: 30px;
-        }
-        
-        .input-group {
+
+        /* 头部样式 */
+        .header {
             display: flex;
-            margin-bottom: 15px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--border-light);
         }
-        
-        input[type="text"], input[type="password"] {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px 0 0 4px;
-            font-size: 16px;
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
         }
-        
-        button {
-            padding: 12px 20px;
-            background-color: #4CAF50;
-            color: white;
+
+        .logo h1 {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .theme-toggle {
+            background: none;
             border: none;
-            border-radius: 0 4px 4px 0;
+            color: var(--text-secondary);
             cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
+            padding: 5px;
+            border-radius: 50%;
         }
-        
-        button:hover {
-            background-color: #45a049;
+
+        /* 主内容区样式 */
+        .form-container {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-light);
+            margin-bottom: var(--spacing-lg);
         }
-        
-        .result-section {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 4px;
-            display: none;
-        }
-        
-        .success {
-            background-color: #e8f5e9;
-            border: 1px solid #c8e6c9;
-            color: #2e7d32;
-        }
-        
-        .error {
-            background-color: #ffebee;
-            border: 1px solid #ffcdd2;
-            color: #c62828;
-        }
-        
-        .admin-section {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px dashed #ddd;
-        }
-        
-        .admin-toggle {
+
+        .form-container h2 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            font-size: 20px;
             text-align: center;
-            margin-bottom: 15px;
         }
-        
-        .admin-content {
-            display: none;
+
+        .query-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
         }
-        
-        textarea {
-            width: 100%;
-            height: 200px;
-            padding: 10px;
-            border: 1px solid #ddd;
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
+            height: var(--input-height);
+            padding: 0 var(--spacing-md);
+            border: 1px solid var(--border-light);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(74, 157, 152, 0.2);
+        }
+
+        .input-hint {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: var(--text-hint);
+            margin-top: 2px;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            height: var(--btn-height);
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .query-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .query-btn:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.03);
+        }
+
+        .query-btn:active {
+            transform: scale(0.98);
+        }
+
+        .retry-btn {
+            background-color: var(--primary-color);
+            color: white;
+            margin-top: var(--spacing-md);
+        }
+
+        /* 结果卡片样式 */
+        .result-section {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .result-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-medium);
+            overflow: hidden;
+            animation: slideUp 0.3s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .result-header h3 {
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text-hint);
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result-content {
+            padding: var(--spacing-lg);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .result-item {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--border-light);
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-label {
+            color: var(--text-secondary);
+            width: 100px;
+            flex-shrink: 0;
+        }
+
+        .item-value {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .value-with-copy {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            width: 28px;
+            height: 28px;
             border-radius: 4px;
-            margin-bottom: 10px;
-            font-family: monospace;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .result-item:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .password-hint {
+            font-size: 12px;
+            color: var(--accent-color);
+            margin-top: 4px;
+        }
+
+        /* 加载状态 */
+        .loading-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(74, 157, 152, 0.2);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: var(--spacing-md);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 空状态 */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .empty-icon {
+            margin-bottom: var(--spacing-md);
+            opacity: 0.7;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+            max-width: 300px;
+        }
+
+        /* 帮助中心 */
+        .help-section {
+            margin-top: var(--spacing-lg);
+        }
+
+        .help-details {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            overflow: hidden;
+        }
+
+        .help-summary {
+            padding: var(--spacing-md);
+            font-weight: 500;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .help-summary:after {
+            content: "+";
+            font-size: 20px;
+            color: var(--primary-color);
+        }
+
+        .help-details[open] .help-summary:after {
+            content: "-";
+        }
+
+        .help-content {
+            padding: 0 var(--spacing-md) var(--spacing-md);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .help-item {
+            margin-top: var(--spacing-md);
+        }
+
+        .help-item h4 {
+            font-size: 15px;
+            margin-bottom: 4px;
+            color: var(--primary-color);
+        }
+
+        .help-item p {
             font-size: 14px;
+            color: var(--text-secondary);
         }
-        
-        .note {
+
+        /* 复制提示 */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
             font-size: 14px;
-            color: #666;
-            margin-top: 10px;
+            animation: fadeInOut 2s ease forwards;
         }
-        
-        .student-info {
-            margin-top: 10px;
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
         }
-        
-        .student-info p {
-            margin: 5px 0;
+
+        /* 响应式适配 */
+        @media (max-width: 576px) {
+            .logo h1 { font-size: 20px; }
+            .form-container { padding: var(--spacing-md); }
+            .result-item { flex-direction: column; }
+            .item-label { width: auto; margin-bottom: 4px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>学生账号密码查询系统</h1>
-        
-        <div class="search-section">
-            <div class="input-group">
-                <input type="text" id="studentName" placeholder="请输入学生姓名">
-                <button id="searchBtn">查询</button>
+        <!-- 顶部导航 -->
+        <header class="header">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 40 40" width="40" height="40">
+                    <path d="M10,15 L30,15 L25,5 L15,5 Z" fill="#4A9D98" opacity="0.8"/>
+                    <path d="M15,5 L25,5 L20,0 L15,5 Z" fill="#4A9D98"/>
+                    <path d="M10,15 L10,30 L30,30 L30,15" fill="none" stroke="#4A9D98" stroke-width="3" stroke-linejoin="round"/>
+                    <circle cx="20" cy="22" r="5" fill="none" stroke="#4A9D98" stroke-width="2"/>
+                </svg>
+                <h1>学生账号密码查询</h1>
             </div>
-            
-            <div id="result" class="result-section"></div>
-        </div>
-        
-        <div class="admin-section">
-            <div class="admin-toggle">
-                <button id="adminToggleBtn">管理员维护</button>
-            </div>
-            
-            <div class="admin-content" id="adminContent">
-                <div class="input-group">
-                    <input type="password" id="adminPassword" placeholder="请输入管理员密码">
-                    <button id="adminLoginBtn">登录</button>
+            <button id="theme-toggle" class="theme-toggle">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </header>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 查询表单 -->
+            <section class="query-form-section">
+                <div class="form-container">
+                    <h2>请输入学生信息</h2>
+                    <form id="query-form" class="query-form">
+                        <div class="form-group">
+                            <label for="student-name" class="form-label">学生姓名</label>
+                            <input type="text" id="student-name" class="form-input" placeholder="请输入学生姓名" required>
+                            <div class="input-hint">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                </svg>
+                                <span>请填写与学籍一致的姓名</span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn query-btn">查询账号密码</button>
+                    </form>
                 </div>
-                
-                <div id="adminPanel" style="display: none;">
-                    <h3>数据维护</h3>
-                    <textarea id="dataTextarea" placeholder="请按格式粘贴学生数据：姓名 手机号 密码"></textarea>
-                    <button id="updateDataBtn">更新数据</button>
-                    <div class="note">
-                        数据格式：每行一个学生，格式为"姓名 手机号 密码"，例如：张三 13800138000 123456
+            </section>
+
+            <!-- 结果显示区 -->
+            <section class="result-section" id="result-section" style="display: none;">
+                <div class="result-card">
+                    <div class="result-header">
+                        <h3>查询结果</h3>
+                        <button id="close-result" class="close-btn">×</button>
+                    </div>
+                    <div class="result-content">
+                        <div class="result-item">
+                            <span class="item-label">学生姓名：</span>
+                            <span class="item-value" id="result-name">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="item-label">账号（手机号）：</span>
+                            <div class="value-with-copy">
+                                <span class="item-value" id="result-account">-</span>
+                                <button class="copy-btn" data-target="result-account" aria-label="复制账号">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <span class="item-label">初始密码：</span>
+                            <div class="value-with-copy">
+                                <span class="item-value" id="result-password">-</span>
+                                <button class="copy-btn" data-target="result-password" aria-label="复制密码">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="password-hint">⚠️如之前修改过密码则使用之前修改过的密码</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
+
+            <!-- 加载状态 -->
+            <section class="loading-section" id="loading-section" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p>正在查询中，请稍候⏳</p>
+            </section>
+
+            <!-- 空状态 -->
+            <section class="empty-state" id="empty-state" style="display: none;">
+                <div class="empty-icon">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#4A9D98" stroke-width="1.5">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        <circle cx="8.5" cy="6.5" r="2.5"></circle>
+                        <path d="M15 10h-6"></path>
+                        <path d="M15 14h-6"></path>
+                        <path d="M13 18h-2"></path>
+                    </svg>
+                </div>
+                <h3>未找到该学生信息</h3>
+                <p>请检查姓名是否正确，或联系班主任核实</p>
+                <button id="retry-btn" class="btn retry-btn">返回修改</button>
+            </section>
+        </main>
+
+        <!-- 帮助中心 -->
+        <section class="help-section">
+            <details class="help-details">
+                <summary class="help-summary">帮助中心</summary>
+                <div class="help-content">
+                    <div class="help-item">
+                        <h3>查询不到信息？</h3>
+                        <p>请确认姓名与学校学籍系统一致，或在公众号联系平台工作人员</p>
+                    </div>
+                </div>
+            </details>
+        </section>
     </div>
 
+    <!-- 复制提示 -->
+    <div class="toast" id="toast" style="display: none;">已复制到剪贴板</div>
+
     <script>
-        // 初始学生数据 - 从提供的文档中提取
-        // 注意：实际部署时，应将完整数据粘贴到这里
-        let studentData = [
+        // 学生数据存储（直接在代码中定义，可手动添加更多学生）
+        const students = [
             { name: "周雨涵", phone: "13922915968", password: "123456" },
-            { name: "张宸瑜", phone: "13527931323", password: "123456" },
+{ name: "张宸瑜", phone: "13527931323", password: "123456" },
 { name: "徐智洋", phone: "13527991636", password: "123456" },
 { name: "张牧容", phone: "13520621873", password: "123456" },
 { name: "韦雄杰", phone: "13326863772", password: "123456" },
 { name: "陈奕朗", phone: "13450012221", password: "123456" },
 { name: "韩佳睿", phone: "13927455141", password: "123456" },
 { name: "曾煜珊", phone: "18520876839", password: "123456" },
-			{ name: "李多念", phone: "15625810237", password: "123456" },
+{ name: "李多念", phone: "15625810237", password: "123456" },
 { name: "吴盈萱", phone: "13922955833", password: "123456" },
 { name: "张子琪", phone: "13553855798", password: "123456" },
 { name: "伍凯瑶", phone: "13543777770", password: "123456" },
@@ -4685,106 +5059,130 @@
 { name: "黄焌贤", phone: "13922922632", password: "123456" },
 { name: "叶泊言", phone: "13790184332", password: "123456" },
 { name: "吴诗涵", phone: "13829135550", password: "123456" },
-{ name: "叶昶颖", phone: "13926876567", password: "123456" },
-            { name: "徐智洋", phone: "13527991636", password: "123456" }
-            // 这里只放了前3条作为示例，实际部署时应包含全部数据
+{ name: "叶昶颖", phone: "13926876567", password: "123456" }
+            // 添加更多学生数据格式：{ name: "姓名", phone: "手机号", password: "密码" }
         ];
 
-        // 管理员密码（简单实现，实际应用中应更安全）
-        const ADMIN_PASSWORD = "admin123";
+        // DOM元素获取
+        const queryForm = document.getElementById('query-form');
+        const studentNameInput = document.getElementById('student-name');
+        const resultSection = document.getElementById('result-section');
+        const loadingSection = document.getElementById('loading-section');
+        const emptyState = document.getElementById('empty-state');
+        const resultName = document.getElementById('result-name');
+        const resultAccount = document.getElementById('result-account');
+        const resultPassword = document.getElementById('result-password');
+        const closeResultBtn = document.getElementById('close-result');
+        const retryBtn = document.getElementById('retry-btn');
+        const themeToggle = document.getElementById('theme-toggle');
+        const toast = document.getElementById('toast');
+        const copyBtns = document.querySelectorAll('.copy-btn');
 
-        // DOM元素
-        const studentNameInput = document.getElementById('studentName');
-        const searchBtn = document.getElementById('searchBtn');
-        const resultDiv = document.getElementById('result');
-        const adminToggleBtn = document.getElementById('adminToggleBtn');
-        const adminContent = document.getElementById('adminContent');
-        const adminPasswordInput = document.getElementById('adminPassword');
-        const adminLoginBtn = document.getElementById('adminLoginBtn');
-        const adminPanel = document.getElementById('adminPanel');
-        const dataTextarea = document.getElementById('dataTextarea');
-        const updateDataBtn = document.getElementById('updateDataBtn');
+        // 根据姓名查询学生数据（精确匹配）
+        function searchStudent(name) {
+            return students.find(student => student.name === name.trim());
+        }
 
-        // 查询功能
-        searchBtn.addEventListener('click', function() {
+        // 显示查询结果
+        function showResult(data) {
+            resultName.textContent = data.name;
+            resultAccount.textContent = data.phone; // 账号使用手机号
+            resultPassword.textContent = data.password;
+            loadingSection.style.display = 'none';
+            emptyState.style.display = 'none';
+            resultSection.style.display = 'block';
+        }
+
+        // 显示空状态（未找到学生）
+        function showEmptyState() {
+            loadingSection.style.display = 'none';
+            resultSection.style.display = 'none';
+            emptyState.style.display = 'flex';
+            emptyState.style.flexDirection = 'column';
+            emptyState.style.alignItems = 'center';
+        }
+
+        // 切换深色/浅色模式
+        function toggleTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // 复制到剪贴板功能
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                toast.style.display = 'block';
+                setTimeout(() => toast.style.display = 'none', 2000);
+            });
+        }
+
+        // 初始化主题设置
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || (savedTheme === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        }
+
+        // 表单提交事件
+        queryForm.addEventListener('submit', (e) => {
+            e.preventDefault();
             const name = studentNameInput.value.trim();
             
             if (!name) {
-                showResult('请输入学生姓名', 'error');
+                alert('请输入学生姓名');
                 return;
             }
-            
-            const student = studentData.find(s => s.name === name);
-            
-            if (student) {
-                showResult(`
-                    <div class="student-info">
-                        <p><strong>姓名：</strong>${student.name}</p>
-                        <p><strong>账号：</strong>${student.phone}</p>
-                        <p><strong>密码：</strong>${student.password}</p>
-                    </div>
-                `, 'success');
-            } else {
-                showResult('未查询到该学生信息', 'error');
-            }
+
+            // 显示加载状态
+            queryForm.style.display = 'none';
+            loadingSection.style.display = 'flex';
+            loadingSection.style.flexDirection = 'column';
+            loadingSection.style.alignItems = 'center';
+
+            // 模拟查询延迟（实际项目可移除setTimeout）
+            setTimeout(() => {
+                const student = searchStudent(name);
+                student ? showResult(student) : showEmptyState();
+            }, 800); // 800ms延迟，提升用户体验
         });
 
-        // 支持按Enter键查询
-        studentNameInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchBtn.click();
-            }
+        // 关闭结果按钮
+        closeResultBtn.addEventListener('click', () => {
+            resultSection.style.display = 'none';
+            queryForm.style.display = 'flex';
+            queryForm.style.flexDirection = 'column';
+            queryForm.style.gap = 'var(--spacing-lg)';
         });
 
-        // 显示结果
-        function showResult(message, type) {
-            resultDiv.innerHTML = message;
-            resultDiv.className = 'result-section ' + type;
-            resultDiv.style.display = 'block';
-        }
-
-        // 管理员功能
-        adminToggleBtn.addEventListener('click', function() {
-            adminContent.style.display = adminContent.style.display === 'block' ? 'none' : 'block';
+        // 重试按钮
+        retryBtn.addEventListener('click', () => {
+            emptyState.style.display = 'none';
+            queryForm.style.display = 'flex';
+            queryForm.style.flexDirection = 'column';
+            queryForm.style.gap = 'var(--spacing-lg)';
         });
 
-        adminLoginBtn.addEventListener('click', function() {
-            if (adminPasswordInput.value === ADMIN_PASSWORD) {
-                adminPanel.style.display = 'block';
-                // 将当前数据加载到文本区域
-                dataTextarea.value = studentData.map(s => `${s.name} ${s.phone} ${s.password}`).join('\n');
-            } else {
-                alert('密码错误');
-            }
+        // 主题切换按钮
+        themeToggle.addEventListener('click', toggleTheme);
+
+        // 复制按钮事件
+        copyBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.getAttribute('data-target');
+                const text = document.getElementById(targetId).textContent;
+                copyToClipboard(text);
+            });
         });
 
-        updateDataBtn.addEventListener('click', function() {
-            const dataText = dataTextarea.value.trim();
-            const lines = dataText.split('\n');
-            const newData = [];
-            
-            for (let line of lines) {
-                const parts = line.trim().split(/\s+/);
-                if (parts.length >= 3) {
-                    newData.push({
-                        name: parts[0],
-                        phone: parts[1],
-                        password: parts[2]
-                    });
-                }
-            }
-            
-            if (newData.length > 0) {
-                studentData = newData;
-                alert(`数据更新成功，共${newData.length}条记录`);
-            } else {
-                alert('数据格式错误，请检查后重试');
-            }
-        });
-
-        // 初始化：将完整数据加载到文本区域（仅管理员可见）
-        // 实际部署时，这里应包含所有数据
-        dataTextarea.value = studentData.map(s => `${s.name} ${s.phone} ${s.password}`).join('\n');
+        // 初始化页面
+        initTheme();
     </script>
 </body>
 </html>
