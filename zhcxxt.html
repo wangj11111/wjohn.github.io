@@ -7,29 +7,27 @@
     <style>
         /* 全局变量定义 */
         :root {
-            --primary-color: #4A9D98; /* 主色调：柔和蓝绿色 */
-            --primary-dark: #3D8B87; /* 主色调加深 */
-            --accent-color: #FF9F45; /* 辅助色：暖橙色 */
-            --error-color: #FF6B6B; /* 错误色：暖红色 */
-            --bg-color: #F9FAF5; /* 背景色：米白色 */
-            --card-bg: #FFFFFF; /* 卡片背景：白色 */
-            --text-primary: #333333; /* 主要文字：深灰 */
-            --text-secondary: #666666; /* 次要文字：中灰 */
-            --text-hint: #888888; /* 提示文字：浅灰 */
-            --border-light: #E8E8E8; /* 分割线：浅灰 */
-            --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08); /* 轻微阴影 */
-            --shadow-medium: 0 4px 12px rgba(74, 157, 152, 0.15); /* 中等阴影 */
+            --primary-color: #4A9D98;
+            --primary-dark: #3D8B87;
+            --accent-color: #FF9F45;
+            --error-color: #FF6B6B;
+            --bg-color: #F9FAF5;
+            --card-bg: #FFFFFF;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-hint: #888888;
+            --border-light: #E8E8E8;
+            --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 4px 12px rgba(74, 157, 152, 0.15);
             
-            /* 尺寸变量 */
-            --border-radius: 8px; /* 圆角 */
-            --btn-height: 50px; /* 按钮高度 */
-            --input-height: 50px; /* 输入框高度 */
+            --border-radius: 8px;
+            --btn-height: 40px; /* 调整按钮高度适配管理后台 */
+            --input-height: 40px;
             --spacing-sm: 8px;
             --spacing-md: 16px;
             --spacing-lg: 24px;
         }
 
-        /* 深色模式变量 */
         [data-theme="dark"] {
             --bg-color: #2D2D2D;
             --card-bg: #3D3D3D;
@@ -38,7 +36,6 @@
             --border-light: #444444;
         }
 
-        /* 全局样式重置 */
         * {
             margin: 0;
             padding: 0;
@@ -55,12 +52,11 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 0 var(--spacing-md);
         }
 
-        /* 头部样式 */
         .header {
             display: flex;
             justify-content: space-between;
@@ -82,16 +78,27 @@
             font-weight: 600;
         }
 
-        .theme-toggle {
+        .theme-toggle, .admin-btn {
             background: none;
             border: none;
             color: var(--text-secondary);
             cursor: pointer;
-            padding: 5px;
-            border-radius: 50%;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
         }
 
-        /* 主内容区样式 */
+        .admin-btn {
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            margin-left: 10px;
+            font-size: 14px;
+        }
+
+        .admin-btn:hover {
+            background-color: rgba(74, 157, 152, 0.1);
+        }
+
         .form-container {
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
@@ -150,18 +157,18 @@
             margin-top: 2px;
         }
 
-        /* 按钮样式 */
         .btn {
             height: var(--btn-height);
             border: none;
             border-radius: var(--border-radius);
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 0 16px;
         }
 
         .query-btn {
@@ -178,13 +185,24 @@
             transform: scale(0.98);
         }
 
-        .retry-btn {
+        .retry-btn, .exit-btn, .filter-btn, .sort-btn {
             background-color: var(--primary-color);
             color: white;
-            margin-top: var(--spacing-md);
+            margin-top: 0;
         }
 
-        /* 结果卡片样式 */
+        .sort-btn {
+            background-color: white;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            margin-left: 5px;
+        }
+
+        .sort-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
         .result-section {
             margin-bottom: var(--spacing-lg);
         }
@@ -248,7 +266,7 @@
 
         .item-label {
             color: var(--text-secondary);
-            width: 100px;
+            width: 120px;
             flex-shrink: 0;
         }
 
@@ -285,7 +303,6 @@
             margin-top: 4px;
         }
 
-        /* 加载状态 */
         .loading-section {
             display: flex;
             flex-direction: column;
@@ -309,7 +326,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* 空状态 */
         .empty-state {
             display: flex;
             flex-direction: column;
@@ -330,7 +346,6 @@
             max-width: 300px;
         }
 
-        /* 帮助中心 */
         .help-section {
             margin-top: var(--spacing-lg);
         }
@@ -382,7 +397,6 @@
             color: var(--text-secondary);
         }
 
-        /* 复制提示 */
         .toast {
             position: fixed;
             bottom: 20px;
@@ -403,18 +417,132 @@
             100% { opacity: 0; }
         }
 
-        /* 响应式适配 */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .admin-content {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-medium);
+            width: 100%;
+            max-width: 1000px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .admin-header {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .admin-header h2 {
+            color: var(--primary-color);
+            font-size: 20px;
+            margin-right: 20px;
+        }
+
+        .admin-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .date-filter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .date-input {
+            height: var(--input-height);
+            padding: 0 12px;
+            border: 1px solid var(--border-light);
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+        }
+
+        .sort-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--spacing-md) 0;
+        }
+
+        .stats-table th, .stats-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 14px;
+        }
+
+        .stats-table th {
+            background-color: rgba(74, 157, 152, 0.1);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .stats-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .admin-footer {
+            padding: var(--spacing-md);
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        @media (max-width: 768px) {
+            .admin-controls {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .date-filter {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            .stats-table th, .stats-table td {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+        }
+
         @media (max-width: 576px) {
             .logo h1 { font-size: 20px; }
             .form-container { padding: var(--spacing-md); }
             .result-item { flex-direction: column; }
             .item-label { width: auto; margin-bottom: 4px; }
+            .date-input { width: 100%; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 顶部导航 -->
         <header class="header">
             <div class="logo">
                 <svg class="logo-icon" viewBox="0 0 40 40" width="40" height="40">
@@ -425,16 +553,17 @@
                 </svg>
                 <h1>学生账号密码查询</h1>
             </div>
-            <button id="theme-toggle" class="theme-toggle">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
-            </button>
+            <div>
+                <button id="theme-toggle" class="theme-toggle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <button id="admin-btn" class="admin-btn">管理后台</button>
+            </div>
         </header>
 
-        <!-- 主内容区 -->
-        <main class="main-content">
-            <!-- 查询表单 -->
+        <main class="main-content" id="main-content">
             <section class="query-form-section">
                 <div class="form-container">
                     <h2>请输入学生信息</h2>
@@ -456,7 +585,6 @@
                 </div>
             </section>
 
-            <!-- 结果显示区 -->
             <section class="result-section" id="result-section" style="display: none;">
                 <div class="result-card">
                     <div class="result-header">
@@ -491,19 +619,17 @@
                                     </svg>
                                 </button>
                             </div>
-                            <div class="password-hint">⚠️如之前修改过密码则使用之前修改过的密码</div>
+                            <div class="password-hint">⚠️ 如之前修改过密码则使用之前修改过的密码</div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 加载状态 -->
             <section class="loading-section" id="loading-section" style="display: none;">
                 <div class="loading-spinner"></div>
                 <p>正在查询中，请稍候⏳</p>
             </section>
 
-            <!-- 空状态 -->
             <section class="empty-state" id="empty-state" style="display: none;">
                 <div class="empty-icon">
                     <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#4A9D98" stroke-width="1.5">
@@ -521,13 +647,12 @@
             </section>
         </main>
 
-        <!-- 帮助中心 -->
         <section class="help-section">
             <details class="help-details">
                 <summary class="help-summary">帮助中心</summary>
                 <div class="help-content">
                     <div class="help-item">
-                        <h3>查询不到信息？</h3>
+                        <h4>查询不到信息？</h4>
                         <p>请确认姓名与学校学籍系统一致，或在公众号联系平台工作人员</p>
                     </div>
                 </div>
@@ -535,11 +660,49 @@
         </section>
     </div>
 
-    <!-- 复制提示 -->
+    <div id="admin-panel" class="admin-panel" style="display: none;">
+        <div class="admin-content">
+            <div class="admin-header">
+                <h2>学生查询统计管理</h2>
+                <div class="admin-controls">
+                    <div class="date-filter">
+                        <input type="date" id="start-date" class="date-input" placeholder="开始日期">
+                        <span>至</span>
+                        <input type="date" id="end-date" class="date-input" placeholder="结束日期">
+                        <button id="filter-btn" class="btn filter-btn">筛选</button>
+                    </div>
+                    <div class="sort-controls">
+                        <span>排序：</span>
+                        <button id="sort-count" class="btn sort-btn active">查询次数</button>
+                        <button id="sort-time" class="btn sort-btn">最后查询时间</button>
+                    </div>
+                </div>
+                <button id="close-admin" class="close-btn">×</button>
+            </div>
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>学生姓名</th>
+                        <th>手机号（账号）</th>
+                        <th>初始密码</th>
+                        <th>查询次数</th>
+                        <th>最后查询时间</th>
+                    </tr>
+                </thead>
+                <tbody id="stats-body">
+                </tbody>
+            </table>
+            <div class="admin-footer">
+                <button id="exit-admin" class="btn exit-btn">退出管理</button>
+            </div>
+        </div>
+    </div>
+
     <div class="toast" id="toast" style="display: none;">已复制到剪贴板</div>
 
     <script>
-        // 学生数据存储（直接在代码中定义，可手动添加更多学生）
+        // 学生数据存储
         const students = [
             { name: "周雨涵", phone: "13922915968", password: "123456" },
 { name: "张宸瑜", phone: "13527931323", password: "123456" },
@@ -5060,10 +5223,23 @@
 { name: "叶泊言", phone: "13790184332", password: "123456" },
 { name: "吴诗涵", phone: "13829135550", password: "123456" },
 { name: "叶昶颖", phone: "13926876567", password: "123456" }
-            // 添加更多学生数据格式：{ name: "姓名", phone: "手机号", password: "密码" }
         ];
 
-        // DOM元素获取
+        // 查询日志（存储每次查询记录：{name, timestamp}）
+        let queryLogs = JSON.parse(localStorage.getItem('queryLogs')) || [];
+
+        // 数据迁移：从旧的queryCounts迁移到新的queryLogs（仅执行一次）
+        if (localStorage.getItem('queryCounts') && queryLogs.length === 0) {
+            const oldCounts = JSON.parse(localStorage.getItem('queryCounts'));
+            Object.keys(oldCounts).forEach(name => {
+                // 为简化，旧数据按1次查询记录处理，时间为当前时间
+                queryLogs.push({ name, timestamp: Date.now() });
+            });
+            localStorage.setItem('queryLogs', JSON.stringify(queryLogs));
+            localStorage.removeItem('queryCounts');
+        }
+
+        // DOM元素
         const queryForm = document.getElementById('query-form');
         const studentNameInput = document.getElementById('student-name');
         const resultSection = document.getElementById('result-section');
@@ -5077,23 +5253,38 @@
         const themeToggle = document.getElementById('theme-toggle');
         const toast = document.getElementById('toast');
         const copyBtns = document.querySelectorAll('.copy-btn');
+        const adminBtn = document.getElementById('admin-btn');
+        const adminPanel = document.getElementById('admin-panel');
+        const statsBody = document.getElementById('stats-body');
+        const exitAdminBtn = document.getElementById('exit-admin');
+        const closeAdminBtn = document.getElementById('close-admin');
+        const mainContent = document.getElementById('main-content');
+        const filterBtn = document.getElementById('filter-btn');
+        const sortCountBtn = document.getElementById('sort-count');
+        const sortTimeBtn = document.getElementById('sort-time');
+        const startDateInput = document.getElementById('start-date');
+        const endDateInput = document.getElementById('end-date');
 
-        // 根据姓名查询学生数据（精确匹配）
+        // 排序状态：默认按查询次数降序
+        let currentSortType = 'count'; // 'count' 或 'time'
+        let currentSortOrder = 'desc'; // 'asc' 或 'desc'
+
+        // 搜索学生
         function searchStudent(name) {
             return students.find(student => student.name === name.trim());
         }
 
-        // 显示查询结果
-        function showResult(data) {
-            resultName.textContent = data.name;
-            resultAccount.textContent = data.phone; // 账号使用手机号
-            resultPassword.textContent = data.password;
+        // 显示结果
+        function showResult(student) {
+            resultName.textContent = student.name;
+            resultAccount.textContent = student.phone;
+            resultPassword.textContent = student.password;
             loadingSection.style.display = 'none';
             emptyState.style.display = 'none';
             resultSection.style.display = 'block';
         }
 
-        // 显示空状态（未找到学生）
+        // 显示空状态
         function showEmptyState() {
             loadingSection.style.display = 'none';
             resultSection.style.display = 'none';
@@ -5102,7 +5293,7 @@
             emptyState.style.alignItems = 'center';
         }
 
-        // 切换深色/浅色模式
+        // 切换主题
         function toggleTheme() {
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             if (isDark) {
@@ -5114,7 +5305,7 @@
             }
         }
 
-        // 复制到剪贴板功能
+        // 复制到剪贴板
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
                 toast.style.display = 'block';
@@ -5122,12 +5313,101 @@
             });
         }
 
-        // 初始化主题设置
+        // 初始化主题
         function initTheme() {
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'dark' || (savedTheme === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.documentElement.setAttribute('data-theme', 'dark');
             }
+        }
+
+        // 格式化时间戳为本地日期时间
+        function formatTime(timestamp) {
+            if (!timestamp) return '未查询';
+            return new Date(timestamp).toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // 刷新管理后台统计数据
+        function refreshAdminStats() {
+            // 获取筛选日期
+            const startDate = startDateInput.value;
+            const endDate = endDateInput.value;
+            const startTimestamp = startDate ? new Date(startDate).setHours(0, 0, 0, 0) : null;
+            const endTimestamp = endDate ? new Date(endDate).setHours(23, 59, 59, 999) : null;
+
+            // 过滤日志
+            let filteredLogs = queryLogs;
+            if (startTimestamp || endTimestamp) {
+                filteredLogs = queryLogs.filter(log => {
+                    const logTime = log.timestamp;
+                    const afterStart = startTimestamp ? logTime >= startTimestamp : true;
+                    const beforeEnd = endTimestamp ? logTime <= endTimestamp : true;
+                    return afterStart && beforeEnd;
+                });
+            }
+
+            // 统计查询次数和最后查询时间
+            const counts = {};
+            const lastQueryTimes = {};
+            filteredLogs.forEach(log => {
+                counts[log.name] = (counts[log.name] || 0) + 1;
+                if (!lastQueryTimes[log.name] || log.timestamp > lastQueryTimes[log.name]) {
+                    lastQueryTimes[log.name] = log.timestamp;
+                }
+            });
+
+            // 准备学生统计数据
+            let studentStats = students.map(student => ({
+                ...student,
+                count: counts[student.name] || 0,
+                lastQueryTime: lastQueryTimes[student.name] || null
+            }));
+
+            // 过滤无查询记录的学生（仅在筛选日期时）
+            if (startDate || endDate) {
+                studentStats = studentStats.filter(stat => stat.count > 0);
+            }
+
+            // 排序
+            studentStats.sort((a, b) => {
+                if (currentSortType === 'count') {
+                    return currentSortOrder === 'desc' ? b.count - a.count : a.count - b.count;
+                } else {
+                    // 按最后查询时间排序（null值排在后面）
+                    if (!a.lastQueryTime && !b.lastQueryTime) return 0;
+                    if (!a.lastQueryTime) return 1;
+                    if (!b.lastQueryTime) return -1;
+                    return currentSortOrder === 'desc' ? b.lastQueryTime - a.lastQueryTime : a.lastQueryTime - b.lastQueryTime;
+                }
+            });
+
+            // 生成表格
+            statsBody.innerHTML = '';
+            studentStats.forEach((stat, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${stat.name}</td>
+                    <td>${stat.phone}</td>
+                    <td>${stat.password}</td>
+                    <td>${stat.count}</td>
+                    <td>${formatTime(stat.lastQueryTime)}</td>
+                `;
+                statsBody.appendChild(row);
+            });
+        }
+
+        // 显示管理后台
+        function showAdminPanel() {
+            refreshAdminStats();
+            adminPanel.style.display = 'flex';
+            mainContent.style.display = 'none';
         }
 
         // 表单提交事件
@@ -5140,17 +5420,22 @@
                 return;
             }
 
-            // 显示加载状态
             queryForm.style.display = 'none';
             loadingSection.style.display = 'flex';
             loadingSection.style.flexDirection = 'column';
             loadingSection.style.alignItems = 'center';
 
-            // 模拟查询延迟（实际项目可移除setTimeout）
             setTimeout(() => {
                 const student = searchStudent(name);
-                student ? showResult(student) : showEmptyState();
-            }, 800); // 800ms延迟，提升用户体验
+                if (student) {
+                    // 记录查询日志
+                    queryLogs.push({ name: student.name, timestamp: Date.now() });
+                    localStorage.setItem('queryLogs', JSON.stringify(queryLogs));
+                    showResult(student);
+                } else {
+                    showEmptyState();
+                }
+            }, 800);
         });
 
         // 关闭结果按钮
@@ -5169,10 +5454,10 @@
             queryForm.style.gap = 'var(--spacing-lg)';
         });
 
-        // 主题切换按钮
+        // 主题切换
         themeToggle.addEventListener('click', toggleTheme);
 
-        // 复制按钮事件
+        // 复制按钮
         copyBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const targetId = btn.getAttribute('data-target');
@@ -5181,7 +5466,64 @@
             });
         });
 
-        // 初始化页面
+        // 管理后台按钮
+        adminBtn.addEventListener('click', () => {
+            const password = prompt('请输入管理员密码：');
+            if (password === '1217') { // 初始密码
+                showAdminPanel();
+            } else {
+                alert('密码错误，无法进入管理后台');
+            }
+        });
+
+        // 关闭管理后台
+        closeAdminBtn.addEventListener('click', () => {
+            adminPanel.style.display = 'none';
+            mainContent.style.display = 'block';
+        });
+
+        // 退出管理按钮
+        exitAdminBtn.addEventListener('click', () => {
+            adminPanel.style.display = 'none';
+            mainContent.style.display = 'block';
+        });
+
+        // 筛选按钮
+        filterBtn.addEventListener('click', refreshAdminStats);
+
+        // 排序按钮 - 次数
+        sortCountBtn.addEventListener('click', () => {
+            if (currentSortType === 'count') {
+                currentSortOrder = currentSortOrder === 'desc' ? 'asc' : 'desc';
+                sortCountBtn.textContent = currentSortOrder === 'desc' ? '查询次数 ↓' : '查询次数 ↑';
+            } else {
+                currentSortType = 'count';
+                currentSortOrder = 'desc';
+                sortCountBtn.textContent = '查询次数 ↓';
+                sortTimeBtn.textContent = '最后查询时间';
+                sortCountBtn.classList.add('active');
+                sortTimeBtn.classList.remove('active');
+            }
+            refreshAdminStats();
+        });
+
+        // 排序按钮 - 时间
+        sortTimeBtn.addEventListener('click', () => {
+            if (currentSortType === 'time') {
+                currentSortOrder = currentSortOrder === 'desc' ? 'asc' : 'desc';
+                sortTimeBtn.textContent = currentSortOrder === 'desc' ? '最后查询时间 ↓' : '最后查询时间 ↑';
+            } else {
+                currentSortType = 'time';
+                currentSortOrder = 'desc';
+                sortTimeBtn.textContent = '最后查询时间 ↓';
+                sortCountBtn.textContent = '查询次数';
+                sortTimeBtn.classList.add('active');
+                sortCountBtn.classList.remove('active');
+            }
+            refreshAdminStats();
+        });
+
+        // 初始化
         initTheme();
     </script>
 </body>
